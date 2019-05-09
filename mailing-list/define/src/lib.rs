@@ -78,4 +78,5 @@ pub extern "C" fn call() {
     mailing_list_urefs.insert(key_name, list_key.into());
 
     let _hash = store_function("mailing_list_ext", mailing_list_urefs);
+    add_uref("mailing_list", &_hash.into());
 }

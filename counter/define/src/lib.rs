@@ -35,4 +35,6 @@ pub extern "C" fn call() {
     counter_urefs.insert(key_name, counter_local_key.into());
 
     let _hash = store_function("counter_ext", counter_urefs);
+    add_uref("counter", &_hash.into());
+
 }
