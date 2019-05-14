@@ -3,9 +3,9 @@
 .SECONDARY:
 
 # Find all examples, e.g. "hello-name"
-EXAMPLES := $(shell find . -type f -name Cargo.toml | awk -F / '{print $$2}' | uniq)
+EXAMPLES := $(shell find . -type f -name Cargo.toml | grep -v integration-tests | awk -F / '{print $$2}' | uniq)
 # Find all contracts, e.g. "hello-name/call" and "hello-name/define"
-CONTRACTS := $(shell find . -type f -name Cargo.toml | sed 's/\/Cargo.toml//' | sed 's/.\///')
+CONTRACTS := $(shell find . -type f -name Cargo.toml | grep -v integration-tests | sed 's/\/Cargo.toml//' | sed 's/.\///')
 
 RUST_TOOLCHAIN := $(shell cat rust-toolchain)
 
@@ -19,6 +19,7 @@ clean: down $(shell find . -type f -name "Cargo.toml" | awk '{print $$1"/clean"}
 define CONTRACT_rule
 .make/contracts/$(1): $$(shell find $(1) -type f \( -name "Cargo.toml" -o -wholename "*/src/*.rs" \)) .make/rustup-update
 	cd $(1) && cargo +$(RUST_TOOLCHAIN) build --release --target wasm32-unknown-unknown
+	cd integration-tests/$(1) && cargo +$(RUST_TOOLCHAIN) build --release --target wasm32-unknown-unknown
 	mkdir -p $$(dir $$@) && touch $$@
 endef
 
