@@ -1,5 +1,5 @@
 [package]
-name = "counter-call"
+name = "test-counter-call"
 version = "0.1.0"
 authors = ["Michael Birch <birchmd@casperlabs.io>"]
 
